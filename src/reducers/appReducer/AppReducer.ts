@@ -38,8 +38,8 @@ export const { setErrorApp, setStatusApp, initializedAppAC } = slice.actions
 
 export type appReducersType = setErrorType | setStatusType | initializedAppType
 type setErrorType = ReturnType<typeof setErrorApp>
-export type setStatusType = ReturnType<typeof setStatusApp>
-export type initializedAppType = ReturnType<typeof initializedAppAC>
+type setStatusType = ReturnType<typeof setStatusApp>
+type initializedAppType = ReturnType<typeof initializedAppAC>
 
 
 export const initializedAppTC = (): AppThunk =>

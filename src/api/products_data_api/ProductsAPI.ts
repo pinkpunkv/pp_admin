@@ -28,10 +28,11 @@ export interface ImgObj {
     productId: number
 }
 export interface CollectionObj {
-    // нужно понимать какие там данные будут 
+    id: number
+    fields: Array<FieldOdj>
 }
 export interface TagsObj {
-    // нужно понимать какие там данные будут 
+    tag: string
 }
 export interface VariantObj {
     color: string
@@ -58,14 +59,16 @@ export interface ContentObj {
 
 }
 export interface ProductsData {
-    content: ContentObj,
+    content: ContentObj[],
     message: string,
     status: number
 }
 
 export const ProductsAPI = {
     getProducts() {
+
         return instance.get<ProductsData>('admin/product').then(res => {
+            console.log(res.data)
             return res.data
         })
     }

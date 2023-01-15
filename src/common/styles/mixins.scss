@@ -1,0 +1,5 @@
+@mixin tittle($fz, $fw, $title_color) {
+    font-size: $fz;
+    font-weight: $fw;
+    color: $title_color;
+}

@@ -1,0 +1,14 @@
+.add_product_wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 0;
+    .title_name {
+        font-size: 30px;
+        color: rgba(105, 105, 105, 0.55);
+        font-weight: 800;
+        text-transform: uppercase;
+        user-select: none;
+        cursor: default;
+    }
+}

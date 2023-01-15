@@ -1,0 +1,10 @@
+@import '../../../../../common//styles//mixins.scss';
+.all_wrapper_search_prod {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .title_search_prod {
+        @include tittle(20px, 500, rgba(0, 0, 0, 0.5));
+    }
+}

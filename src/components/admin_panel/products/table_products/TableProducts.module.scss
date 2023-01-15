@@ -1,0 +1,12 @@
+@import '../../../../common/styles/varible_styles.scss';
+.table_wrapper {
+    margin: 20px 0px 0px 0px;
+    .table_head {
+        background-color: $bgcolor;
+        & th:nth-child(n) {
+            color: rgb(138, 138, 138);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    }
+}
