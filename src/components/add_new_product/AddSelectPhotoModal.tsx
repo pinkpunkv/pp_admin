@@ -44,8 +44,7 @@ export const AddSelectPhotoModal = ({ children, photoId, index, onChange, setFie
         values.images.push(imageObj)
         handleClose()
     }
-
-
+    //for commit and push
     return (
         <BasicModal childrenBtn={children} name={'Select Photo'}>
             {(handleClose: () => void) =>
