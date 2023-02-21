@@ -18,8 +18,8 @@ export const SortSize = () => {
 
         const choise_size = event.target.value
         const params = {
-            sortSize: choise_size,
             search: searchQueryName,
+            size: choise_size,
             min: searchQueryMin,
             max: searchQueryMax,
             avalible: searchAvalibleProducts

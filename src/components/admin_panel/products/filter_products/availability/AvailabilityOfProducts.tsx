@@ -9,15 +9,18 @@ export const AvailabilityOfProducts = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const searchAvalibleProducts = searchParams.get('avalible') || '';
+    const sortSize = searchParams.get('size') || '';
     const searchQueryName = searchParams.get('search') || '';
     const searchQueryMin = searchParams.get('min') || '';
     const searchQueryMax = searchParams.get('max') || '';
+
 
     const handleChange = (event: SelectChangeEvent) => {
 
         const avalible_vallue = event.target.value
         const params = {
             search: searchQueryName,
+            size: sortSize,
             min: searchQueryMin,
             max: searchQueryMax,
             avalible: avalible_vallue

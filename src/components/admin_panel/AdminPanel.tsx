@@ -11,9 +11,8 @@ import { Products } from './products/Products';
 
 export const AdminPanel = () => {
     const dispatch = useAppDispatch()
-    const admin_data = useAppSelector(state => state.admin_panel.content)
     const status = useAppSelector(state => state.app.status)
-    console.log(admin_data)
+
 
     useEffect(() => {
         dispatch(fetchAdminData())

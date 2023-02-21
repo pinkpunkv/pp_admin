@@ -1,0 +1,186 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+%error_message {
+    position: absolute;
+    right: 0;
+    color: red;
+    font-weight: 300;
+    font-size: 15px;
+    animation: ani 1s forwards;
+}
+
+@keyframes ani {
+    0% {
+        transform: translateY(80%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.loading_wrapper {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.all_wrapper {
+    position: relative;
+    .goBack {
+        position: absolute;
+        top: 24px;
+        left: 15px;
+    }
+    .button_wrapper {
+        position: absolute;
+        top: 34px;
+        right: 15px;
+        width: 100px;
+    }
+    .form_wrapper {
+        .title_for_form {
+            text-align: center;
+            padding-top: 40px;
+            text-transform: uppercase;
+            font-size: 25px;
+            font-weight: 800;
+            color: rgb(109, 109, 109);
+            cursor: default;
+        }
+        .first_form_wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            padding: 20px 0 0 20px;
+            .slug_wrapper {
+                position: relative;
+                width: 200px;
+                padding: 20px 0 0 20px;
+                .error_val {
+                    @extend %error_message
+                }
+            }
+            .categories_wrapper {
+                position: relative;
+                width: 200px;
+                padding: 20px 0 0 20px;
+                .error_val {
+                    @extend %error_message
+                }
+            }
+            .collectionId_wrapper {
+                width: 140px;
+                padding: 20px 0 0 20px;
+            }
+            .sex_wrapper {
+                position: relative;
+                width: 150px;
+                padding: 20px 0 0 20px;
+                .error_val {
+                    @extend %error_message
+                }
+            }
+            .active_wrapper {
+                width: 200px;
+                padding: 20px 0 0 20px;
+            }
+            .price_wrapper {
+                position: relative;
+                width: 150px;
+                padding: 20px 0 0 20px;
+                .error_val {
+                    @extend %error_message
+                }
+            }
+            .currency_symbol_wrapper {
+                width: 100px;
+                padding: 20px 0 0 20px;
+            }
+        }
+        .fields_wrapper {
+            .title_for_fields {
+                text-align: center;
+                margin: 40px 0 0 20px;
+                text-transform: uppercase;
+                font-size: 25px;
+                font-weight: 800;
+                color: rgb(109, 109, 109);
+                cursor: default;
+            }
+            .flex_container_for_fields {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                margin: 10px;
+                align-items: center;
+                .english_fields {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .fields_icon {
+                        position: relative;
+                        width: 400px;
+                        padding: 20px 0 0 20px;
+                        .error_val {
+                            @extend %error_message
+                        }
+                    }
+                }
+                .russian_fields {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .fields_icon {
+                        position: relative;
+                        width: 400px;
+                        padding: 20px 0 0 20px;
+                        .error_val {
+                            @extend %error_message
+                        }
+                    }
+                }
+            }
+        }
+        .product_photo_wrapper {
+            .photo_title {
+                text-align: center;
+                margin: 40px 0 20px 0;
+                text-transform: uppercase;
+                font-size: 25px;
+                font-weight: 800;
+                color: rgb(109, 109, 109);
+                cursor: default;
+            }
+            .flex_wrapper_photo {
+                display: flex;
+                justify-content: center;
+                .prod_photo {
+                    width: 100px;
+                    margin: 2px;
+                    cursor: pointer;
+                    transition: all .5s;
+                    &:hover {
+                        box-shadow: 1px 5px 10px black;
+                        transition: all .5s;
+                    }
+                    &:active {
+                        box-shadow: 1px 2px 5px black;
+                        transition: all .1s;
+                    }
+                }
+                img {
+                    width: 100px;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+        }
+    }
+}

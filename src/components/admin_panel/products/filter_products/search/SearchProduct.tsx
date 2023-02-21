@@ -12,9 +12,9 @@ export const SearchProduct = () => {
     //const producs = useAppSelector(state => state.admin_panel.content)
 
 
-
     const [searchParams, setSearchParams] = useSearchParams();
     const searchQueryName = searchParams.get('search') || '';
+    const sortSize = searchParams.get('size') || '';
     const searchAvalibleProducts = searchParams.get('avalible') || '';
     const searchQueryMin = searchParams.get('min') || '';
     const searchQueryMax = searchParams.get('max') || '';
@@ -27,9 +27,10 @@ export const SearchProduct = () => {
         const query = form.value
         const params = {
             search: query,
-            avalible: searchAvalibleProducts,
+            size: sortSize,
             min: searchQueryMin,
-            max: searchQueryMax
+            max: searchQueryMax,
+            avalible: searchAvalibleProducts
         }
         setSearchParams(params)
     }

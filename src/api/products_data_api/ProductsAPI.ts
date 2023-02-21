@@ -2,9 +2,9 @@ import { instance } from './../api';
 
 export interface CategoryObj {
     id: number,
-    isMain: boolean,
-    parentId: null | number,
-    slug: string
+    isMain?: boolean,
+    parentId?: null | number,
+    slug?: string
 }
 export interface CurencyObj {
     imageId: null | number,
@@ -13,7 +13,7 @@ export interface CurencyObj {
 export interface FieldOdj {
     fieldName: string,
     fieldValue: string,
-    id: number,
+    id?: number,
     languageId: number
 }
 export interface ImgMetaObj {
@@ -21,11 +21,11 @@ export interface ImgMetaObj {
     url: string
 }
 export interface ImgObj {
-    image: ImgMetaObj,
+    image?: ImgMetaObj,
     imageId: number,
     isMain: boolean,
-    number: number,
-    productId: number
+    number: number | null,
+    productId?: number
 }
 export interface CollectionObj {
     id: number
@@ -63,13 +63,55 @@ export interface ProductsData {
     message: string,
     status: number
 }
+export interface addProductResponceType {
+    content: ContentObj,
+    message: string,
+    status: number
+}
+export interface addProductObj {
+    slug: string;
+    price: number;
+    active: boolean;
+    sex: string;
+    collectionId?: any;
+    currencySymbol: string;
+    fields: Array<FieldOdj>;
+    categories: CategoryObj[];
+    tags: TagsObj[];
+    images: ImgObj[];
+}
 
+interface imagesObject {
+    id: number
+    url: string
+}
+export interface imagesResponce {
+    content: Array<imagesObject>
+    message: string
+    status: number
+}
 export const ProductsAPI = {
     getProducts() {
-
         return instance.get<ProductsData>('admin/product').then(res => {
-            console.log(res.data)
             return res.data
         })
+    },
+    addProduct(new_product: addProductObj) {
+        return instance.post<addProductResponceType>('admin/product', new_product).then(res => {
+            return res.data.content
+        })
+    },
+    removeProduct(productId: number) {
+        return instance.delete(`admin/product/${productId}`)
     }
+
 }
+
+export const ImagesAPI = {
+    getImagesData() {
+        return instance.get<imagesResponce>('admin/image').then(res => {
+            return res.data
+        })
+    },
+}
+

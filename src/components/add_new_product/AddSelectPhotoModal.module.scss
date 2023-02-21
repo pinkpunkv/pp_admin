@@ -1,0 +1,22 @@
+.modal_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 200px;
+    margin: 0 auto;
+    .text_form_flex {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .field_style {
+            margin: 10px;
+            width: 200px;
+        }
+    }
+    .is_main {
+        margin: 5px 0;
+    }
+    .button_modal {
+        margin: 10px 10px;
+    }
+}

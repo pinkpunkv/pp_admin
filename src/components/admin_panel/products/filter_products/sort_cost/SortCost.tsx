@@ -17,6 +17,8 @@ export const SortCost = () => {
     const searchQueryName = searchParams.get('search') || '';
     const searchQueryMin = searchParams.get('min') || '';
     const searchQueryMax = searchParams.get('max') || '';
+    const sortSize = searchParams.get('size') || '';
+    const searchAvalibleProducts = searchParams.get('avalible') || '';
 
     const max_value = Number(searchQueryMax) ? Number(searchQueryMax) : maxCostCount
     const [value, setValue] = React.useState<number[]>([Number(searchQueryMin), Number(searchQueryMax)]);
@@ -31,8 +33,10 @@ export const SortCost = () => {
 
         const params = {
             search: searchQueryName,
+            size: sortSize,
             min: min_val.toString(),
-            max: ''
+            max: '',
+            avalible: searchAvalibleProducts
         }
         max_val === 0 ? params.max = maxCostCount.toString() : params.max = max_val.toString()
         setSearchParams(params)

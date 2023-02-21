@@ -5,15 +5,16 @@ import style from './Login.module.css'
 import {
     Button,
     FormControl,
-    FormControlLabel, IconButton, InputAdornment,
+    IconButton, InputAdornment,
     InputLabel, LinearProgress,
     OutlinedInput,
-    styled,
-    Switch,
-    SwitchProps,
     TextField
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { fetchLoginTC } from '../../reducers/loginReducer/Login';
+import { Navigate } from 'react-router-dom';
+import { Paths } from '../../common/paths/Paths';
 
 
 
@@ -28,12 +29,13 @@ interface State {
 interface InitialValuesType {
     email: string
     password: string
-    rememberMe: boolean
 }
 
 export const LoginPage = () => {
 
-
+    const dispatch = useAppDispatch()
+    const status = useAppSelector(state => state.app.status)
+    const isAuth = useAppSelector(state => state.login.isAuth)
 
     const [values, setValues] = React.useState<State>({
         amount: '',
@@ -59,8 +61,7 @@ export const LoginPage = () => {
     const formik = useFormik({
         initialValues: {
             email: '',
-            password: '',
-            rememberMe: false
+            password: ''
         },
         validationSchema: Yup.object().shape({
             email: Yup.string().email('invalid email address').required('required'),
@@ -69,12 +70,15 @@ export const LoginPage = () => {
                 .required('required')
         }),
         onSubmit: (values: InitialValuesType, { setSubmitting, setStatus }: FormikHelpers<InitialValuesType>) => {
-            alert(JSON.stringify(values))
+            dispatch(fetchLoginTC(values))
         }
     })
-    let status = "success"; // заглушка 
-    return (
 
+    if (isAuth) {
+        return <Navigate to={Paths.main} />
+    }
+
+    return (
         <div className={style.all_wrapper_login}>
             <div className={style.wrapper_login}>
                 {status === 'loading' && <div className="loading"><LinearProgress color="primary" /></div>}
@@ -128,16 +132,6 @@ export const LoginPage = () => {
                                 <div className={style.validation}>{formik.errors.password}</div>
                             ) : null}
                         </div>
-                        <div className={style.item_box}>
-                            <FormControlLabel
-                                control={<IOSSwitch sx={{ mx: 2 }} />}
-                                name="rememberMe"
-                                onChange={() => {
-                                    formik.setFieldValue('rememberMe', !formik.values.rememberMe)
-                                }}
-                                label="Remember me"
-                            />
-                        </div>
                     </form>
                     <form onSubmit={formik.handleSubmit} className={style.form}>
                         <div className={style.item_box}>
@@ -149,55 +143,3 @@ export const LoginPage = () => {
         </div>
     );
 }
-
-
-const IOSSwitch = styled((props: SwitchProps) => (
-    <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-))(({ theme }) => ({
-    width: 42,
-    height: 26,
-    padding: 0,
-    '& .MuiSwitch-switchBase': {
-        padding: 0,
-        margin: 2,
-        transitionDuration: '300ms',
-        '&.Mui-checked': {
-            transform: 'translateX(16px)',
-            color: '#fff',
-            '& + .MuiSwitch-track': {
-                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-                opacity: 1,
-                border: 0,
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: 0.5,
-            },
-        },
-        '&.Mui-focusVisible .MuiSwitch-thumb': {
-            color: '#33cf4d',
-            border: '6px solid #fff',
-        },
-        '&.Mui-disabled .MuiSwitch-thumb': {
-            color:
-                theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[600],
-        },
-        '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-        },
-    },
-    '& .MuiSwitch-thumb': {
-        boxSizing: 'border-box',
-        width: 22,
-        height: 22,
-    },
-    '& .MuiSwitch-track': {
-        borderRadius: 26 / 2,
-        backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-        opacity: 1,
-        transition: theme.transitions.create(['background-color'], {
-            duration: 500,
-        }),
-    },
-}));
