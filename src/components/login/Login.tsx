@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { fetchLoginTC } from '../../reducers/loginReducer/Login';
 import { Navigate } from 'react-router-dom';
 import { Paths } from '../../common/paths/Paths';
+import { ErrorSnackbar } from '../../common/error_snack_bar/ErrorSnackBar';
 
 
 
@@ -80,6 +81,7 @@ export const LoginPage = () => {
 
     return (
         <div className={style.all_wrapper_login}>
+            <ErrorSnackbar />
             <div className={style.wrapper_login}>
                 {status === 'loading' && <div className="loading"><LinearProgress color="primary" /></div>}
                 <div className={style.sing_in}>Sing in</div>

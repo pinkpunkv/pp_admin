@@ -9,6 +9,7 @@ import { store } from './reducers/store';
 import { LoginPage } from './components/login/Login';
 import { AddNewProduct } from './components/add_new_product/AddNewProduct';
 import { Paths } from './common/paths/Paths';
+import { Product } from './components/admin_panel/products/product/Product';
 
 
 
@@ -22,6 +23,7 @@ root.render(
         <Route path={Paths.main} element={<App />} />
         <Route path={Paths.login} element={<LoginPage />} />
         <Route path={Paths.add_product} element={<AddNewProduct />} />
+        <Route path={Paths.product} element={<Product />} />
       </Routes>
     </BrowserRouter>
   </Provider>

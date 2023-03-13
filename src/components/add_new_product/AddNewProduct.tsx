@@ -6,13 +6,15 @@ import style from './AddNewProduct.module.scss';
 import { TextField, FormControlLabel, Button, FormControl, InputLabel, Select, MenuItem, IconButton } from '@mui/material';
 import { IOSSwitch } from '../../common/styles/themeForIOSUtil';
 import { addProductObj } from '../../api/products_data_api/ProductsAPI'
-import { fetchAdminData } from "../../reducers/imagesData/ImagesData"
 import { ThreeDots } from 'react-loader-spinner';
 import { AddSelectPhotoModal } from './AddSelectPhotoModal';
 import { addProductData } from '../../reducers/adminPanel/AdminPanel';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../common/paths/Paths';
+import { ErrorSnackbar } from '../../common/error_snack_bar/ErrorSnackBar';
+import { getCategoriesData } from '../../reducers/categoryReducer/CategoryReducer';
+import { fetchImagesData } from '../../reducers/imagesData/ImagesData';
 
 
 
@@ -23,12 +25,18 @@ export const AddNewProduct = () => {
     const dispatch = useAppDispatch()
     const products_photo = useAppSelector(state => state.images.content)
     const status = useAppSelector(state => state.app.status)
+    const categories_data = useAppSelector(state => state.categories.content)
     const navigate = useNavigate()
 
 
     useEffect(() => {
-        dispatch(fetchAdminData())
+        dispatch(fetchImagesData())
     }, [])
+
+    useEffect(() => {
+        dispatch(getCategoriesData())
+    }, [])
+
 
 
     if (status === 'loading') {
@@ -110,6 +118,7 @@ export const AddNewProduct = () => {
             }}
             validationSchema={AddProductSchema}
             onSubmit={(values: addProductObj, { setSubmitting, setStatus }: FormikHelpers<addProductObj>) => {
+                alert(JSON.stringify(values))
                 dispatch(addProductData(values))
             }
             }
@@ -119,6 +128,7 @@ export const AddNewProduct = () => {
 
                 return (
                     <div className={style.all_wrapper}>
+                        <ErrorSnackbar />
                         <div className={style.goBack}>
                             <IconButton onClick={goBackhandleChange}>
                                 < ArrowBackOutlinedIcon color={'primary'} sx={{ fontSize: 40 }} />
@@ -128,7 +138,7 @@ export const AddNewProduct = () => {
                         <Form className={style.form_wrapper} onSubmit={props.handleSubmit}>
                             <div className={style.title_for_form}> About add Product</div>
                             <div className={style.button_wrapper} >
-                                <Button className={style.button_submit} variant="outlined" type="submit">ADD</Button>
+                                <Button className={style.button_submit} variant="outlined" type="submit">ADD NEW PRODUCT</Button>
                             </div>
                             <div className={style.first_form_wrapper}>
                                 <div className={style.slug_wrapper}>
@@ -234,16 +244,16 @@ export const AddNewProduct = () => {
                                                                 labelId="demo-simple-select-label"
                                                                 id='categories'
                                                                 name={`categories.${index}.id`}
-                                                                value={props.values.categories[index].id}
                                                                 label="categories"
                                                                 onChange={props.handleChange}
                                                                 onBlur={props.handleBlur}
                                                                 color={'primary'}
+                                                                defaultValue=""
                                                             >
-                                                                <MenuItem value={1}>t-shirts</MenuItem>
-                                                                <MenuItem value={2}>coats</MenuItem>
-                                                                <MenuItem value={3}>pants</MenuItem>
-                                                                <MenuItem value={4}>jackets</MenuItem>
+                                                                {categories_data.map((cat_val) =>
+                                                                    <MenuItem key={cat_val && cat_val.id} value={cat_val && cat_val.id}>{cat_val && cat_val.slug}</MenuItem>)}
+
+
                                                             </Select>
                                                         </FormControl>
                                                     )
@@ -352,7 +362,6 @@ export const AddNewProduct = () => {
                                                 {props.values.fields.map((field, index) => {
                                                     const valueForField = props.errors.fields && props.errors.fields[index]
                                                     const arrVal = valueForField && Object.values(valueForField)
-                                                    console.log(arrVal)
                                                     return (
                                                         <div key={index}>
                                                             {props.values.fields[index].fieldName === 'name' &&

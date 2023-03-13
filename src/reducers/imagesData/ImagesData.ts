@@ -13,7 +13,7 @@ const initialState: initialStateType = {
     status: 0
 }
 
-export const fetchAdminData = createAsyncThunk('ImagesDataReducer/getImages', async (param, thunkAPI) => {
+export const fetchImagesData = createAsyncThunk('ImagesDataReducer/getImages', async (param, thunkAPI) => {
     thunkAPI.dispatch(setStatusApp({ status: 'loading' }))
     try {
         const res_images_data = await ImagesAPI.getImagesData()

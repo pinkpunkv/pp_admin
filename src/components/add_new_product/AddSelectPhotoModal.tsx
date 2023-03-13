@@ -1,17 +1,17 @@
 import React, { SyntheticEvent, ChangeEvent, ReactNode, useState } from 'react';
-import { Button, FormControlLabel, Switch, TextField } from '@mui/material';
+import { Button, FormControlLabel, TextField } from '@mui/material';
 import style from './AddSelectPhotoModal.module.scss'
 import { BasicModal } from '../../common/basic_modal/BasicModal';
 import { IOSSwitch } from '../../common/styles/themeForIOSUtil';
-import { ImgObj, addProductObj } from '../../api/products_data_api/ProductsAPI';
+import { ImgObj } from '../../api/products_data_api/ProductsAPI';
 
 
 type AddPackModalType = {
     children: ReactNode
     dataImages: ImgObj[]
-    photoId: number
+    photoId?: number
     index: number
-    values: addProductObj
+    values: any
     onChange: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | SyntheticEvent<Element, Event>) => void
     setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void
 }
@@ -19,7 +19,7 @@ type AddPackModalType = {
 export const AddSelectPhotoModal = ({ children, photoId, index, onChange, setFieldValue, values }: AddPackModalType) => {
 
     const imageObject: ImgObj = {
-        imageId: photoId,
+        imageId: photoId && photoId,
         isMain: false,
         number: 0
     }
@@ -44,7 +44,7 @@ export const AddSelectPhotoModal = ({ children, photoId, index, onChange, setFie
         values.images.push(imageObj)
         handleClose()
     }
-    //for commit and push
+
     return (
         <BasicModal childrenBtn={children} name={'Select Photo'}>
             {(handleClose: () => void) =>

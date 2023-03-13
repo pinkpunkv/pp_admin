@@ -1,13 +1,16 @@
+import { ProductsAPI } from './../../api/products_data_api/ProductsAPI';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ContentObj, ProductsAPI, ProductsData, addProductObj } from "../../api/products_data_api/ProductsAPI";
+import { ContentObj } from "../../api/products_data_api/ProductsAPI";
 import { setStatusApp } from '../appReducer/AppReducer';
 import { AxiosError } from 'axios';
 import { handleError } from '../../common/error_utils/ErrorUtils';
 
-export type initialStateType = ProductsData
 
-const initialState: initialStateType = {
-    content: [{
+export type initialProductType = {
+    content: ContentObj
+}
+const initialState: initialProductType = {
+    content: {
         active: false,
         categories: [],
         collection: {
@@ -51,16 +54,14 @@ const initialState: initialStateType = {
                 size: ''
             }
         ],
-    }],
-    message: '',
-    status: 0
+    }
 }
 
-export const fetchAdminData = createAsyncThunk('AdminPanelReducer/fetchAdminData', async (param, thunkAPI) => {
+export const getProductData = createAsyncThunk('ProductReducer/getProductData', async (product_id: number, thunkAPI) => {
     thunkAPI.dispatch(setStatusApp({ status: 'loading' }))
     try {
-        const res_admin_data = await ProductsAPI.getProducts()
-        thunkAPI.dispatch(getAdminData({ data: res_admin_data }))
+        const product_data_api = await ProductsAPI.getProduct(product_id)
+        thunkAPI.dispatch(setProductData({ product_data: product_data_api.content }))
         thunkAPI.dispatch(setStatusApp({ status: 'succeeded' }))
     }
     catch (e) {
@@ -68,63 +69,38 @@ export const fetchAdminData = createAsyncThunk('AdminPanelReducer/fetchAdminData
         handleError(err, thunkAPI.dispatch)
         thunkAPI.dispatch(setStatusApp({ status: 'failed' }))
     }
-
 })
 
-export const addProductData = createAsyncThunk('AdminPanelReducer/addProductData', async (param: addProductObj, thunkAPI) => {
+export const updateProductData = createAsyncThunk('ProductReducer/updateProductData', async (product_info_for_update: ContentObj, thunkAPI) => {
     thunkAPI.dispatch(setStatusApp({ status: 'loading' }))
     try {
-        const res_new_product = await ProductsAPI.addProduct(param)
-        thunkAPI.dispatch(addNewProduct({ content: res_new_product }))
+        const update_product_data_api = await ProductsAPI.updateProduct(product_info_for_update)
+        thunkAPI.dispatch(updateProductData(update_product_data_api.content))
         thunkAPI.dispatch(setStatusApp({ status: 'succeeded' }))
-        console.log('good');
-
     }
     catch (e) {
-        console.log(e)
         const err = e as Error | AxiosError
-        console.log(err)
         handleError(err, thunkAPI.dispatch)
         thunkAPI.dispatch(setStatusApp({ status: 'failed' }))
     }
-
 })
-export const deleteProduct = createAsyncThunk('AdminPanelReducer/deleteProduct', async (id: number, thunkAPI) => {
-    thunkAPI.dispatch(setStatusApp({ status: 'loading' }))
-    try {
-        const resp_delete_product = await ProductsAPI.removeProduct(id)
-        thunkAPI.dispatch(fetchAdminData())
-    }
-    catch (e) {
-        const err = e as Error | AxiosError
-        handleError(err, thunkAPI.dispatch)
-        thunkAPI.dispatch(setStatusApp({ status: 'failed' }))
-    }
-}
-)
-
-
 
 const slice = createSlice({
-    name: 'AdminPanelReducer',
+    name: 'ProductReducer',
     initialState,
     reducers: {
-        getAdminData(state, action: PayloadAction<{ data: ProductsData }>) {
-            state.content = action.payload.data.content
+        setProductData(state, action: PayloadAction<{ product_data: ContentObj }>) {
+            state.content = action.payload.product_data
         },
-        addNewProduct(state, action: PayloadAction<{ content: ContentObj }>) {
-            state.content.push(action.payload.content)
+        updateProductData(state, action: PayloadAction<{ update_product_data: ContentObj }>) {
+            state.content = action.payload.update_product_data
         }
+
     }
 })
 
-export const AdminPanelReducer = slice.reducer
-export const { getAdminData, addNewProduct } = slice.actions
+export const ProductReducer = slice.reducer
+export const { setProductData } = slice.actions
 
-export type AdminPanelActionsType = getAdminDataType
-type getAdminDataType = ReturnType<typeof getAdminData>
-
-
-
-
-
+export type ProductActions = setProductDataType
+type setProductDataType = ReturnType<typeof setProductData>
